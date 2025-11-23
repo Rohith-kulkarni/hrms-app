@@ -46,35 +46,61 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col w-screen h-screen justify-center items-center">
-      <div className="flex flex-col">
-        <form className="flex flex-col gap-4" onSubmit={onFormSubmit}>
-          <div className="flex flex-col gap-3">
-            <label htmlFor="userEmail">Email:</label>
+    <div className="flex w-screen h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-200 px-4">
+      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
+        <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
+          Login
+        </h1>
+
+        <form className="flex flex-col gap-5" onSubmit={onFormSubmit}>
+          <div className="flex flex-col gap-1">
+            <label
+              htmlFor="userEmail"
+              className="text-sm font-medium text-gray-600"
+            >
+              Email
+            </label>
             <input
               id="userEmail"
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent shadow-sm"
             />
           </div>
 
-          <div className="flex flex-col gap-3">
-            <label htmlFor="userPassword">Password:</label>
+          <div className="flex flex-col gap-1">
+            <label
+              htmlFor="userPassword"
+              className="text-sm font-medium text-gray-600"
+            >
+              Password
+            </label>
             <input
               id="userPassword"
               type="password"
               value={password}
               onChange={(e) => setUserPassword(e.target.value)}
+              className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent shadow-sm"
             />
           </div>
 
-          <button type="submit">Login</button>
+          <button
+            type="submit"
+            className="mt-2 bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-all duration-200 shadow-md"
+          >
+            Login
+          </button>
         </form>
 
-        <div className="flex flex-row">
-          <p className="text-pretty">Not registered? </p>
-          <a href="/signup">Signup</a>
+        <div className="flex justify-center gap-2 mt-5 text-sm">
+          <p className="text-gray-600">Not registered?</p>
+          <a
+            href="/signup"
+            className="text-indigo-600 font-medium hover:underline"
+          >
+            Signup
+          </a>
         </div>
       </div>
     </div>
