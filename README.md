@@ -1,70 +1,231 @@
-# Getting Started with Create React App
+# 🌐 Organisation Management Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern React-based frontend for managing **Organisations, Employees, Teams, Authentication**, and Dashboard analytics.  
+This UI connects to the Node.js Backend API and offers a clean, responsive, and user-friendly experience.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+- User Signup & Login
+- JWT-based Authentication
+- Protected Routes (React Router)
+- Organisation Dashboard (Counts, Created Date)
+- Create / View / Edit / Delete Employees
+- Create / View / Edit / Delete Teams
+- Assign & Unassign Employees to Teams
+- Global API client for token-based requests
+- Error handling with toasts / UI feedback
+- Responsive UI with Tailwind / CSS
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠️ Tech Stack
 
-### `npm test`
+- **React**
+- **React Router**
+- **Axios / Fetch**
+- **TailwindCSS / CSS**
+- **LocalStorage** for JWT token
+- **Vite / CRA** depending on your setup
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 📂 Folder Structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+src/
+ ├── api/
+ │   ├── apiClient.js
+ │   ├── employeesApi.js
+ │   ├── teamsApi.js
+ │   └── organisationApi.js
+ │
+ ├── components/
+ │   ├── Login/
+ │   ├── Signup/
+ │   ├── Dashboard/
+ │   ├── employees/
+ │   ├── teams/
+ │   └── common/ProtectedRoute.js
+ │
+ ├── context/AuthContext.js
+ ├── utils/
+ ├── App.js
+ ├── main.jsx
+ └── index.css
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## ⚙️ Installation
 
-### `npm run eject`
+### 1️⃣ Clone Repo
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```sh
+git clone https://github.com/Rohith-kulkarni/hrms-app
+cd hrms-app
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 2️⃣ Install Dependencies
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```sh
+npm install
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 🌍 Environment Setup
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Create a `.env` file in project root:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+For CRA:
 
-### Code Splitting
+```
+REACT_APP_BASE_URL=http://localhost:5000
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+For Vite:
 
-### Analyzing the Bundle Size
+```
+VITE_BASE_URL=http://localhost:5000
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Your backend must run on this URL.
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## ▶️ Start the Project
 
-### Advanced Configuration
+### Development server
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```sh
+npm start
+```
 
-### Deployment
+Or for Vite:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```sh
+npm run dev
+```
 
-### `npm run build` fails to minify
+### Build for Production
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```sh
+npm run build
+```
+
+### Preview Production Build
+
+```sh
+npm run preview
+```
+
+---
+
+## 🔌 API Setup
+
+All API calls go through:
+
+### `src/api/apiClient.js`
+
+Handles:
+
+- Injecting JWT token
+- Base URL
+- JSON headers
+- Response handling
+
+Example:
+
+```js
+export const apiClient = (endpoint, options = {}) => {
+  const token = localStorage.getItem("token");
+
+  return fetch(`${process.env.REACT_APP_BASE_URL}${endpoint}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token ? `Bearer ${token}` : "",
+      ...options.headers,
+    },
+  }).then(async (response) => {
+    if (!response.ok) throw new Error(await response.text());
+    return response.json();
+  });
+};
+```
+
+---
+
+## 🔐 Authentication Flow
+
+1. Login / Signup → JWT returned
+2. Token stored in `localStorage`
+3. Every request includes `Authorization: Bearer <token>`
+4. Protected routes check token before rendering
+
+Example:
+
+```jsx
+const ProtectedRoute = ({ children }) => {
+  return localStorage.getItem("token") ? (
+    children
+  ) : (
+    <Navigate to="/login" replace />
+  );
+};
+```
+
+---
+
+## 📄 Main Routes
+
+| Route               | Description               |
+| ------------------- | ------------------------- |
+| `/login`            | Login page                |
+| `/signup`           | User registration         |
+| `/dashboard`        | Organisation summary      |
+| `/employees`        | List employees            |
+| `/employees/create` | Add employee              |
+| `/teams`            | List teams                |
+| `/teams/create`     | Add team                  |
+| `/teams/:id`        | Assign/unassign employees |
+
+---
+
+## 🛠️ Common Issues
+
+### ❌ 401 Unauthorized
+
+Check token saved:
+
+```js
+localStorage.setItem("token", response.token);
+```
+
+### ❌ API “Organisation not defined”
+
+Ensure backend route:
+
+```
+/api/organisation/:id
+```
+
+### ❌ “Invalid Date” in Dashboard
+
+Backend must return valid `created_at`.
+
+---
+
+## 📜 License
+
+MIT License
+
+---
+
+## ✨ Author
+
+Your Name  
+your@email  
+GitHub: https://github.com/your-user
