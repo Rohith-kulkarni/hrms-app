@@ -34,6 +34,7 @@ const Signup = () => {
       );
 
       const data = await response.json();
+      console.log(data);
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("organisationId", data.user.organisationId);
