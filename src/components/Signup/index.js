@@ -22,7 +22,7 @@ const Signup = () => {
     };
 
     try {
-      const response = fetch(
+      const response = await fetch(
         `${process.env.REACT_APP_BASE_URL}/api/auth/signup`,
         { method: "POST" },
         userDetails
