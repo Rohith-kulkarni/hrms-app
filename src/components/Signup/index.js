@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
@@ -23,8 +22,9 @@ const Signup = () => {
     };
 
     try {
-      const response = await axios.post(
+      const response = fetch(
         `${process.env.REACT_APP_BASE_URL}/api/auth/signup`,
+        { method: "POST" },
         userDetails
       );
 
