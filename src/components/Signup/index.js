@@ -28,10 +28,10 @@ const Signup = () => {
         userDetails
       );
 
-      const { token } = response.data;
+      const data = await response.json();
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("organisationId", response.user.organisationId);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("organisationId", data.user.organisationId);
 
       navigate("/");
     } catch (error) {
