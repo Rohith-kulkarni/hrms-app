@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-import PublicRoutes from "./common/PublicRoutes";
+import PublicRoutes from "./common/PublicRoute";
 import ProtectedRoute from "./common/ProtectedRoute";
 
 import Login from "./components/Login";
