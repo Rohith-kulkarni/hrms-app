@@ -1,7 +1,7 @@
 import { Outlet, Navigate } from "react-router-dom";
 import Layout from "../components/layouts/Layout";
 
-const PrivateRoutes = () => {
+const ProtectedRoute = () => {
   const token = localStorage.getItem("token");
   return token ? (
     <Layout>
@@ -12,4 +12,4 @@ const PrivateRoutes = () => {
   );
 };
 
-export default PrivateRoutes;
+export default ProtectedRoute;

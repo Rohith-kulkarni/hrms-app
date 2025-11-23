@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-import PublicRoute from "./common/PublicRoute";
+import PublicRoutes from "./common/PublicRoutes";
 import ProtectedRoute from "./common/ProtectedRoute";
 
 import Login from "./components/Login";
@@ -19,12 +19,12 @@ function App() {
   return (
     <Routes>
       {/* PUBLIC ROUTES */}
-      <Route element={<PublicRoute />}>
+      <Route element={<PublicRoutes />}>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Route>
 
-      {/* PRIVATE ROUTES */}
+      {/* PROTECTED ROUTES */}
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<Dashboard />} />
 
@@ -38,6 +38,9 @@ function App() {
         <Route path="/teams/edit/:id" element={<EditTeam />} />
         <Route path="/teams/assign/:teamId" element={<AssignTeam />} />
       </Route>
+
+      {/* CATCH-ALL */}
+      <Route path="*" element={<h1>404 - Not Found</h1>} />
     </Routes>
   );
 }
