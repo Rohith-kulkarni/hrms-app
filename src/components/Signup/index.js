@@ -34,15 +34,18 @@ const Signup = () => {
       );
 
       const data = await response.json();
-      console.log(data);
+
+      if (!response.ok) {
+        setErrorMsg(data.error || "Signup failed");
+        return;
+      }
 
       localStorage.setItem("token", data.token);
-      localStorage.setItem("organisationId", data.user.organisationId);
+      localStorage.setItem("organisationId", data.user.organisation.id);
 
       navigate("/");
     } catch (error) {
-      const msg = error.response?.data?.error || "Something went wrong";
-      setErrorMsg(msg);
+      setErrorMsg("Something went wrong");
     }
   };
 
